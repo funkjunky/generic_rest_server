@@ -1,0 +1,8 @@
+{
+	"name": "generic_rest_server",
+	"description": "Will take any RESTFUL operations with no authentication required",
+	"dependencies": {
+		"express": "latest"
+	},
+	"engine": "node >= 0.10.18"
+}

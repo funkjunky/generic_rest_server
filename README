@@ -1,0 +1,1 @@
+This is a generic REST server that will give and take any information thrown at it. I've built it strictly for testing when you don't yet have access to the API you plan on using.

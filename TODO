@@ -1,0 +1,7 @@
+TODO
+---
+ - write the express server that will run given a database and port as an argument, or using a config file [secondary], or defaults.
+ - write the post command for adding a post to a collection /:collection
+ - write the get command for retreving a post from a collection [in it's entirety] it will filter by all get parameters.
+ - write the put to edit a post in a collection.
+ - write the delete to delete a post in a collection.
