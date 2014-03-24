@@ -2,7 +2,11 @@
 	"name": "generic_rest_server",
 	"description": "Will take any RESTFUL operations with no authentication required",
 	"dependencies": {
-		"express": "latest"
+		"express": "latest",
+		"mongodb": "latest"
 	},
-	"engine": "node >= 0.10.18"
+	"engine": {
+		"node": "0.10.x",
+		"npm": "1.2.x"
+	}
 }

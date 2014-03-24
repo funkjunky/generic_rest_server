@@ -1,3 +1,8 @@
 This is a generic REST server that will give and take any information thrown at it. I've built it strictly for testing when you don't yet have access to the API you plan on using.
+
+INSTALLATION: git clone <url>, then npm install
+
 use the restconfig.json file in the root folder to configure the settings through JSON.
 The settings you can set are "port" and "database". Port in an integer, while database is a string.
+Also you can set the settings from the command, the operational command is:
+node server.js [mongo_url] [database] [port]

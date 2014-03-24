@@ -1,6 +1,8 @@
 TODO
 ---
- - write the post command for adding a post to a collection /:collection
- - write the get command for retreving a post from a collection [in it's entirety] it will filter by all get parameters.
  - write the put to edit a post in a collection.
  - write the delete to delete a post in a collection.
+
+*done for my needs. Back to lifeweb.*
+
+ - be able to write options for the get query, also maybe with edit?
