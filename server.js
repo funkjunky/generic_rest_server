@@ -8,13 +8,12 @@ var Http = require('http');
 
 var app = Express();
 var server = Http.createServer(app);
+var config = {};
 
 app.configure(function() {
-	var config = {};
-
 	//Config file
 	if(FileSystem.existsSync('restconfig.json'))
-		config = require('restconfig.json');
+		config = require('./restconfig.json');
 
 	//command line and environment variables
 	if(process.argv[2]) config.database = process.argv[2];
@@ -28,4 +27,4 @@ app.configure(function() {
 });
 
 server.listen(app.get('port'));
-console.log('Generic Restful Server now listening on port ' + app.get('port'));
+console.log('Generic Restful Server now listening on port ' + app.get('port') + ', using mongo database "' + config.database + '"');
