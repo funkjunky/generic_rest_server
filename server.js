@@ -4,6 +4,7 @@ var FileSystem = require('fs')
 var Express = require('express');
 var Http = require('http');
 var Mongo = require('mongodb');
+var ObjectID = Mongo.ObjectID;
 
 //create the server
 
@@ -53,7 +54,7 @@ app.post('/:collection', function(req, res) {
 	if(collection)
 		collection.insert(req.body, function(err, docs) {
 			if(!err)
-				res.send(200, 'Successfully create the record: ' + JSON.stringify(req.body, null, '\t'));
+				res.send(200, 'Successfully created the record: ' + JSON.stringify(req.body, null, '\t'));
 			else
 				res.send(500, 'An error occured: ' + JSON.stringify(err, null, '\t'));
 		});
@@ -77,11 +78,31 @@ app.get('/:collection', function(req, res) {
 });
 
 app.put('/:collection', function(req, res) {
-	res.send(200, 'EDIT on collection ' + req.params.collection);
+	var _id = ObjectID(req.body._id);
+	delete req.body['_id'];
+	var collection = dbh.collection(req.params.collection);
+	if(collection)
+		collection.update({_id: _id}, {$set: req.body}, function(err) {
+			if(!err)
+				res.send(200, 'Updated "' + _id + '" to: ' + JSON.stringify(req.body, null, '\t'));
+			else
+				res.send(500, 'An error occured: ' + JSON.stringify(err, null, '\t'));
+		});
+	else
+		res.send(500, 'Could not instantiate collection object');
 });
 
 app.delete('/:collection', function(req, res) {
-	res.send(200, 'DELETE on collection ' + req.params.collection);
+	var collection = dbh.collection(req.params.collection);
+	if(collection)
+		collection.remove(req.body, function(err) {
+			if(!err)
+				res.send(200, 'Delete The document with the parameters:\n' + JSON.stringify(req.body, null, '\t'));
+			else
+				res.send(500, 'An error occured: ' + JSON.stringify(err, null, '\t'));
+		});
+	else
+		res.send(500, 'Could not instantiate collection object');
 });
 
 server.listen(app.get('port'));
