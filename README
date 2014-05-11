@@ -6,3 +6,8 @@ use the restconfig.json file in the root folder to configure the settings throug
 The settings you can set are "port" and "database". Port in an integer, while database is a string.
 Also you can set the settings from the command, the operational command is:
 node server.js [mongo_url] [database] [port]
+
+The urls are all "/:collection" with the data determining what to create, change or query. In the case of a "PUT" edit, the _id will be used to edit it.
+
+You can add files by "PUT"ing to "/__file/:folder" and returned will be the object:
+{url: <url path of file>, type: <type of file>}
