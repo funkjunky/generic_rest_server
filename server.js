@@ -40,7 +40,7 @@ var allowCrossDomain = function(req, res, next) {
 
 	//defaults
 	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/';
-	if(!config.database) config.database = 'generic';
+	if(!config.database) config.database = 'heroku_app34883601';
 	if(!config.port) config.port = 1828;
 
 	//set the settings
