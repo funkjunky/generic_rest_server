@@ -25,7 +25,6 @@ var allowCrossDomain = function(req, res, next) {
 };
 // //////////////////////// //
 
-app.configure(function() {
 	//Config file
 	if(FileSystem.existsSync('restconfig.json'))
 		config = require('./restconfig.json');
@@ -50,7 +49,6 @@ app.configure(function() {
 	//middleware
 	app.use(Express.bodyParser());
 	app.use(allowCrossDomain);
-});
 
 // Prepare the mongo connection
 db.connect(app.get('mongo_db_url'), function(err, dbHandle) {
