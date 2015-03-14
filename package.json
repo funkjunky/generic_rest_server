@@ -3,7 +3,8 @@
 	"description": "Will take any RESTFUL operations with no authentication required",
 	"dependencies": {
 		"express": "latest",
-		"mongodb": "latest"
+		"mongodb": "latest",
+		"body-parser": "latest"
 	},
 	"engine": {
 		"node": "0.10.x",

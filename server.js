@@ -4,6 +4,7 @@ var FileSystem = require('fs')
 var Express = require('express');
 var Http = require('http');
 var Mongo = require('mongodb');
+var BodyParser = require('body-parser');
 var ObjectID = Mongo.ObjectID;
 
 //create the server
@@ -40,14 +41,14 @@ var allowCrossDomain = function(req, res, next) {
 	//defaults
 	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/';
 	if(!config.database) config.database = 'generic';
-	if(!config.port) config.port = 1818;
+	if(!config.port) config.port = 1828;
 
 	//set the settings
 	app.set('port', config.port);
 	app.set('mongo_db_url', config.mongo_url + config.database);
 
 	//middleware
-	app.use(Express.bodyParser());
+	app.use(BodyParser);
 	app.use(allowCrossDomain);
 
 // Prepare the mongo connection
