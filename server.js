@@ -79,6 +79,7 @@ app.post('/:collection', function(req, res) {
 		res.send(500, 'Could not instantiate collection object');
 });
 
+
 app.get('/:collection', function(req, res) {
 	var collection = dbh.collection(req.params.collection);
 	if(collection)
