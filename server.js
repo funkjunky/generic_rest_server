@@ -45,7 +45,7 @@ var allowCrossDomain = function(req, res, next) {
 
 	//set the settings
 	app.set('port', config.port);
-	app.set('mongo_db_url', config.mongo_url + config.database);
+	app.set('mongo_db_url', config.mongo_url);
 
 	//middleware
 	app.use(BodyParser);
