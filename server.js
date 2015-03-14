@@ -33,13 +33,14 @@ app.configure(function() {
 	//command line and environment variables
 	//TODO: there should be a more elegant way to do this. Like some kind of greedy iteration.
 	if(process.argv[2]) config.mongo_url = process.argv[2];
+	else if(process.env.MONGOLAB_URI) config.mongo_url = process.env.MONGOLAB_URI;
 	if(process.argv[3]) config.database = process.argv[3];
 	if(process.argv[4]) config.port = process.argv[4];
 	else if(process.env.port) config.port = process.env.port;
 
 	//defaults
 	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/';
-	if(!config.database) config.database = 'restful_test';
+	if(!config.database) config.database = 'generic';
 	if(!config.port) config.port = 1818;
 
 	//set the settings
