@@ -36,7 +36,7 @@ var allowCrossDomain = function(req, res, next) {
 	else if(process.env.MONGOLAB_URI) config.mongo_url = process.env.MONGOLAB_URI;
 	if(process.argv[3]) config.database = process.argv[3];
 	if(process.argv[4]) config.port = process.argv[4];
-	else if(process.env.port) config.port = process.env.port;
+	else if(process.env.PORT) config.port = process.env.PORT;
 
 	//defaults
 	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/';
