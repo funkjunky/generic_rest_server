@@ -34,13 +34,11 @@ var allowCrossDomain = function(req, res, next) {
 	//TODO: there should be a more elegant way to do this. Like some kind of greedy iteration.
 	if(process.argv[2]) config.mongo_url = process.argv[2];
 	else if(process.env.MONGOLAB_URI) config.mongo_url = process.env.MONGOLAB_URI;
-	if(process.argv[3]) config.database = process.argv[3];
-	if(process.argv[4]) config.port = process.argv[4];
+	if(process.argv[3]) config.port = process.argv[3];
 	else if(process.env.PORT) config.port = process.env.PORT;
 
 	//defaults
-	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/';
-	if(!config.database) config.database = 'heroku_app34883601';
+	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/testdatabase';
 	if(!config.port) config.port = 1828;
 
 	//set the settings
@@ -48,7 +46,7 @@ var allowCrossDomain = function(req, res, next) {
 	app.set('mongo_db_url', config.mongo_url);
 
 	//middleware
-	app.use(BodyParser);
+	app.use(BodyParser.json({type: 'application/json'}));
 	app.use(allowCrossDomain);
 
 // Prepare the mongo connection
@@ -82,11 +80,13 @@ app.post('/:collection', function(req, res) {
 
 app.get('/:collection', function(req, res) {
 	var collection = dbh.collection(req.params.collection);
+    console.log('got collection: ', req.params.collection);
 	if(collection)
 		collection.find(req.query, {}, function(err, docs) {
+            console.log('find complete...');
 			if(!err)
 				docs.toArray(function(err, results) {
-					res.send(200, JSON.stringify(results));
+					res.status(200).send(JSON.stringify(results));
 				});
 			else
 				res.send(500, 'An error occured: ' + JSON.stringify(err, null, '\t'));

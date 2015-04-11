@@ -2,9 +2,9 @@
 	"name": "generic_rest_server",
 	"description": "Will take any RESTFUL operations with no authentication required",
 	"dependencies": {
-		"express": "latest",
-		"mongodb": "latest",
-		"body-parser": "latest"
+		"express": "4.12.x",
+		"mongodb": "2.0.x",
+		"body-parser": "1.12.x"
 	},
 	"engine": {
 		"node": "0.10.x",
