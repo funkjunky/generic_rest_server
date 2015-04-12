@@ -2,17 +2,16 @@
 
 var FileSystem = require('fs')
 var Express = require('express');
+var Feathers = require('feathers');
 var Http = require('http');
-var Mongo = require('mongodb');
+var Mongo = require('feathers-mongodb');
 var BodyParser = require('body-parser');
 var ObjectID = Mongo.ObjectID;
 
 //create the server
 
-var app = Express();
-var server = Http.createServer(app);
-var db = Mongo.MongoClient;
-var dbh;
+//var app = Express();
+var app = Feathers();
 
 var config = {};
 
@@ -32,23 +31,32 @@ var allowCrossDomain = function(req, res, next) {
 
 	//command line and environment variables
 	//TODO: there should be a more elegant way to do this. Like some kind of greedy iteration.
-	if(process.argv[2]) config.mongo_url = process.argv[2];
+	if(process.argv[2]) config.collections = process.argv[2].split(',');
+	if(process.argv[3]) config.mongo_url = process.argv[3];
 	else if(process.env.MONGOLAB_URI) config.mongo_url = process.env.MONGOLAB_URI;
-	if(process.argv[3]) config.port = process.argv[3];
+	if(process.argv[4]) config.port = process.argv[4];
 	else if(process.env.PORT) config.port = process.env.PORT;
 
 	//defaults
+	if(!config.collections) config.collections = ['test'];
 	if(!config.mongo_url) config.mongo_url = 'mongodb://localhost:27017/testdatabase';
 	if(!config.port) config.port = 1828;
-
-	//set the settings
-	app.set('port', config.port);
-	app.set('mongo_db_url', config.mongo_url);
 
 	//middleware
 	app.use(BodyParser.json({type: 'application/json'}));
 	app.use(allowCrossDomain);
 
+	app.configure(Feathers.rest());
+    config.collections.forEach(function(collection) {
+        app.use('/'+collection, Mongo({
+            connectionString: config.mongo_url,
+            collection: collection,
+        }));
+    });
+
+    app.listen(config.port);
+    console.log('Generic Restful Server now listening on port ' + config.port);
+/*
 // Prepare the mongo connection
 db.connect(app.get('mongo_db_url'), function(err, dbHandle) {
 	if(!err) {
@@ -122,7 +130,6 @@ app.put('/:collection', function(req, res) {
 	else
 		res.send(500, 'Could not instantiate collection object');
 });
-
 app.put('/__file/:folder', function(req, res) {
 	var files = req.files;
 	for(var filename in files)
@@ -144,8 +151,10 @@ app.put('/__file/:folder', function(req, res) {
 			});
 		});
 });
+//TODO: reimplement file uploading. Maybe the above well work just fine? I'm not sure.
 
 app.use('/__uploads', Express.static(__dirname + '/__uploads'));
 
 server.listen(app.get('port'));
 console.log('Generic Restful Server now listening on port ' + app.get('port'));
+*/
