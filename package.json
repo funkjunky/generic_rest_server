@@ -1,6 +1,6 @@
 {
   "name": "generic_rest_server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Will take any RESTFUL operations with no authentication required",
   "keywords": [
     "rest",
@@ -27,6 +27,6 @@
     "node": "0.10.x",
     "npm": "1.2.x"
   },
-  "main": "server.js",
+  "main": "generic_rest_server.js",
   "preferGlobal": "true"
 }
