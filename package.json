@@ -1,6 +1,6 @@
 {
   "name": "generic_rest_server",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Will take any RESTFUL operations with no authentication required",
   "keywords": [
     "rest",
@@ -24,5 +24,8 @@
     "passport-local": "^1.0.0"
   },
   "main": "generic_rest_server.js",
+  "bin": {
+    "generic-rest-server": "./generic_rest_server.js"
+  },
   "preferGlobal": "true"
 }
