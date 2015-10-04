@@ -11,6 +11,8 @@ var config = {
 	port: 1828,
 	store_secret: 'omgasecret',
 
+	route_prefix: '/api',
+
 	admin_user: 'root',
 	admin_pass: 'z',
 
