@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 //External Libraries
@@ -15,7 +17,6 @@ var GetPassport = require('./get-passport');
 var SetupAuthentication = require('./setup-authentication');
 var SetupRoutesWithAuthorization = require('./setup-routes-with-authorization');
 var SetupUploadAndFileAccess = require('./setup-upload-and-file-access');
-var IoConstants = require('./io-constants');
 
 
 //get app
@@ -36,11 +37,7 @@ app
     //REST server
 	.configure(Feathers.rest())
 	//Socket server
-	.configure(Feathers.socketio(function(io) {
-	    io.on(IoConstants.listen.connection, function(socket) {
-	        console.log('connected!!');
-	    });
-	}))
+	.configure(Feathers.socketio())
 	//Prepare passport hooks
 	.configure(Hooks())
 	.configure(FeathersPassport(PassportConfigs(passport, userService, config)));
@@ -50,6 +47,10 @@ SetupAuthentication(app, userService, passport, config);
 SetupRoutesWithAuthorization(app, config.collections, config);
 
 SetupUploadAndFileAccess(app, config);
+
+app.use(function(req, res, next) {
+    res.status(404).send('API url not found.\n');
+});
 
 
 app.listen(config.port);
