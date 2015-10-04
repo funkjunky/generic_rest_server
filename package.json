@@ -1,6 +1,16 @@
 {
   "name": "generic_rest_server",
+  "version": "0.2",
   "description": "Will take any RESTFUL operations with no authentication required",
+  "keywords": [
+    "rest",
+    "sockets",
+    "node",
+    "feathersjs"
+  ],
+  "homepage": "https://github.com/funkjunky/generic-rest-server",
+  "repository": "funkjunky/generic-rest-server",
+  "license": "GNUP",
   "dependencies": {
     "body-parser": "1.12.x",
     "connect-mongo": "^0.8.2",
@@ -16,5 +26,7 @@
   "engine": {
     "node": "0.10.x",
     "npm": "1.2.x"
-  }
+  },
+  "main": "server.js",
+  "preferGlobal": "true"
 }
