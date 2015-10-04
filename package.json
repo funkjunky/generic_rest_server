@@ -1,13 +1,20 @@
 {
-	"name": "generic_rest_server",
-	"description": "Will take any RESTFUL operations with no authentication required",
-	"dependencies": {
-		"express": "4.12.x",
-		"mongodb": "2.0.x",
-		"body-parser": "1.12.x"
-	},
-	"engine": {
-		"node": "0.10.x",
-		"npm": "1.2.x"
-	}
+  "name": "generic_rest_server",
+  "description": "Will take any RESTFUL operations with no authentication required",
+  "dependencies": {
+    "body-parser": "1.12.x",
+    "connect-mongo": "^0.8.2",
+    "express": "4.12.x",
+    "feathers": "1.0.x",
+    "feathers-hooks": "^0.5.0",
+    "feathers-mongodb": "0.x",
+    "feathers-passport": "^0.1.2",
+    "multer": "1.0.*",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0"
+  },
+  "engine": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  }
 }
