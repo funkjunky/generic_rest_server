@@ -8,7 +8,7 @@ function GetConfigs(configPath, defaultConfigPath, process) {
     var finalConfig = extendObj({}, config);
 	if(configPath) {
 	    if(FileSystem.existsSync(configPath))
-		    finalConfig = extendObj(config, require(configPath));
+		    finalConfig = extendObj(config, require(process.cwd() + '/' + configPath));
 	    else
 	        console.error('Config file specified doesnt exist: ', configPath);
 	}
