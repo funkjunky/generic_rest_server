@@ -1,6 +1,6 @@
 {
   "name": "generic_rest_server",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Will take any RESTFUL operations with no authentication required",
   "keywords": [
     "rest",
