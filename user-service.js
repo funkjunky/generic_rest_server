@@ -8,8 +8,22 @@ var UserService = function(database, adminUser, adminPass) {
     }).extend({
         authenticate: function(username, password, callback) {
             console.log('username: ', username);
-            if(username == adminUser && password == adminPass)
-                return callback(null, {_id: -1337, username: username, super: true});
+            if(username == adminUser && password == adminPass) {
+                return this.find({query: {_id: -1337}}, function(error, users) {
+                    //TODO: centralize the error handling somehow... I don't like all this repeating.
+                    if(error)
+                        callback(error);
+
+                    var user = users[0];
+                    if(!user)
+                        return this.create({_id: -1337, username: adminUser}, {}, function(err, response) {
+                            //TODO: return the user info returned by the response
+                            return callback(null, {_id: -1337, username: username, super: true});
+                        });
+                    else
+                        return callback(null, {_id: -1337, username: username, super: true});
+                }.bind(this)); //TODO: is this bind necessary?
+            }
             this.find({query: {username: username}}, function(error, users) {
                 if(error)
                     callback(error);
