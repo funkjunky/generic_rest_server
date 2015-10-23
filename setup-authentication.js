@@ -7,6 +7,10 @@ var SetupAuthentication = function(app, userService, passport, config) {
     app.post(config.route_prefix + config.login_route, passport.authenticate('local'), function(req, res) {
 	    res.status(200).send(JSON.stringify(req.user));
     });
+    app.get(config.route_prefix + config.login_route, function(req, res) {
+        req.logout();
+        res.status(200).send('{"user": null}');
+    });
 };
 
 module.exports = SetupAuthentication;
