@@ -21,8 +21,12 @@ function GetConfigs(configPath, defaultConfigPath, process) {
 	finalConfig.db = finalConfig.mongo_url.split('/').slice(-1)[0]; //TODO: anything more effecient than this, lol (but obvs i want it simple, so make an end fnc)
 
     //user configs
-	finalConfig.admin_user = process.env.ADMINUSER || config.admin_user;
-	finalConfig.admin_pass = process.env.ADMINPASS || config.admin_pass;
+	finalConfig.admin_user = process.env.ADMIN_USER || config.admin_user;
+	finalConfig.admin_pass = process.env.ADMIN_PASS || config.admin_pass;
+
+	//passport configs
+	finalConfig.google_id = process.env.GOOGLE_ID || config.google_id;
+	finalConfig.google_secret = process.env.GOOGLE_SECRET || config.google_secret;
 
 	return finalConfig;
 }

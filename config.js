@@ -12,6 +12,7 @@ var config = {
 	store_secret: 'omgasecret',
 
 	route_prefix: '/api',
+	auth_prefix: '/auth',
 
 	admin_user: 'root',
 	admin_pass: 'z',
@@ -30,6 +31,10 @@ var config = {
 
     users_route: '/users',
     login_route: '/login',
+    google_callback_route: '/oauth2callback',
+
+    google_id: false,
+    google_secret: false,
 
     upload_route: '/__file',
     upload_dir: '__uploads',
