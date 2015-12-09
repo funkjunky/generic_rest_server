@@ -15,7 +15,6 @@ function GetPassport(userService, config) {
         userService.authenticate(username, password, done);
     }));
 
-    console.log('callbackurl: ', process.env.HOST + config.route_prefix + config.auth_prefix + config.google_callback_route);
     //http://passportjs.org/docs/google
     Passport.use(new GoogleStrategy({
         clientID: config.google_id,
@@ -23,7 +22,11 @@ function GetPassport(userService, config) {
         callbackURL: process.env.HOST + config.route_prefix + config.auth_prefix + config.google_callback_route,
         realm: process.env.HOST,
     }, function(token, tokenSecret, profile, done) {
-        userService.findOrCreate({ googleId: profile.id }, function(err, user) {
+        //TODO: what do i do with the token? I guess it's unnecessary as I only care about authentication and none of google's services.
+        userService.findAndModify({
+            query: { google_id: profile.id, },
+            update: { google_id: profile.id, username: profile.displayName, groups: ['oauth']},
+        }, function(err, user) {
             return done(err, user);
         });
     }));

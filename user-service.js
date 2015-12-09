@@ -4,7 +4,7 @@ var Crypto = require('crypto');
 var UserService = function(database, adminUser, adminPass) {
     return MongoDB({
         db: database,
-        collection: '_users',
+        collection: 'users',
     }).extend({
         authenticate: function(username, password, callback) {
             console.log('username: ', username);
@@ -42,6 +42,8 @@ var UserService = function(database, adminUser, adminPass) {
         setup: function() {
             this.before({
                 create: function(hook, next) {
+                    if(!hook.data.salt)
+                        next();     //this well be the case with oauth
                     //Create the salt
                     var salt = Crypto.randomBytes(128).toString('base64');
                     hook.data.salt = salt;
@@ -50,6 +52,16 @@ var UserService = function(database, adminUser, adminPass) {
                     next();
                 },
             });
+        },
+
+        //NOTE: This is because feathers mongoDB extension doesn't include many useful functions
+        findAndModify: function(options, fnc) {
+            this.find({query: options.query}, function(err, docs) {
+                if(docs.length > 0)
+                    fnc(err, docs[0]);
+                else
+                    this.create(options.update, null, fnc);
+            }.bind(this));
         },
     });
 };

@@ -16,18 +16,18 @@ var SetupAuthentication = function(app, userService, passport, config) {
     //logout
     app.get(config.route_prefix + config.auth_prefix + '/logout', function(req, res) {
         req.logout();
-        res.status(200).send('{"user": null}');
+        res.status(200).send(JSON.stringify(req.user));
     });
 
     //TODO: config variables for all urls! Especially /auth/google
     //oauth google login
-    app.get('/auth/google', passport.authenticate('google', {
+    app.get(config.route_prefix + config.auth_prefix + '/google', passport.authenticate('google', {
         scope: ['https://www.googleapis.com/auth/plus.login'],
     }));
 
     //oauth google login callback
     app.get(config.route_prefix + config.auth_prefix + config.google_callback_route, passport.authenticate('google', {
-        successRedirect: '/',
+        successRedirect: '/api/user',
         failureRedirect: '/auth/google',    //TODO: this should redirect to a login page... but this doesn't come with a login page... so i dunno...
     }));
 };
