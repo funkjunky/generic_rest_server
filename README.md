@@ -1,6 +1,6 @@
 Generic Rest Server
 ===================
-##### An instant deployable REST and Socket server with authorization available
+##### An instant deployable REST and Socket server with authorization and hooks available
 
 ```
 > npm install -g generic_rest_server
@@ -12,7 +12,7 @@ Generic Rest Server
 This is a generic REST server that will give and take any information thrown at it.
 I've built this for prototyping apps, although if security isn't a major concern, then I can't see a reason not to use it on simple production sites [ie. a personal blog].
 The server runs on Node and the data is stored in MongoDB.
-Most things can be configured using a config file you pass as the only parameter to the executable.
+Everything can be configured using a config file (Including function hooks) you pass as the only parameter to the executable.
 See the config.js in source for what can be set, and the format for setting collections and groups.
 
 ```
