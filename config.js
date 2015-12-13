@@ -19,9 +19,24 @@ var config = {
 
     collections: {
         sample_collection: {
-            created: false,              //All people, even ones that aren't registered or logged in, can create "sample_collection" articles
-            edited: true,                 //only registered users can edit "sample_collection" articles
-            deleted: 'sample_admin',     //only users in the group "sample_admin" can delete "sample_collection" articles
+            //created: false,              //Default: All people, even ones that aren't registered or logged in, can create "sample_collection" articles
+            edited: {
+                auth: true,                 //only registered users can edit "sample_collection" articles
+            },
+            deleted: {
+                auth: 'sample_admin',     //only users in the group "sample_admin" can delete "sample_collection" articles
+            },
+            find: {
+                auth: false,
+                before: function(dbh, ctx, next) {
+                    console.log('before finding a thing!', ctx, dbh.databaseName);
+                    next();
+                },
+                after: function(dbh, ctx, next) {
+                    console.log('after we found a thing!', ctx, dbh.databaseName);
+                    next();
+                },
+            },
         },
     },
     groups: {

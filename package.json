@@ -18,6 +18,7 @@
     "feathers": "1.0.x",
     "feathers-hooks": "^0.5.0",
     "feathers-mongodb": "0.x",
+    "mongodb": "^1.4.0",
     "feathers-passport": "^0.1.2",
     "multer": "1.0.*",
     "passport": "^0.3.0",
