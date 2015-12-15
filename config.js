@@ -34,9 +34,20 @@ var config = {
                 },
                 after: function(dbh, ctx, next) {
                     console.log('after we found a thing!', ctx, dbh.databaseName);
+                    if(ctx.result.length === 1) {
+                        console.log('add timestamp if only one item!');
+                        add_current_time(ctx.result[0]);
+                    }
                     next();
                 },
             },
+            get: {
+                after: function(dbh, ctx, next) {
+                    //You could use dbh to attach related data to the ctx.
+                    add_current_time(ctx.result);
+                    next();
+                },
+            }
         },
     },
     groups: {
@@ -55,5 +66,9 @@ var config = {
     upload_dir: '__uploads',
     file_route: '/__uploads',
 };
+
+function add_current_time(result) {
+    result.current_time = Date.now();
+}
 
 module.exports = config;
