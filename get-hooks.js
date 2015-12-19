@@ -36,7 +36,7 @@ function getGroupBeforeHook(auth, beforeHook, dbhObj) {
 	return function(hook, next) {
         var securityResponse;
 	    if(auth)
-	        securityResponse = groupSecurityHook(auth);
+	        securityResponse = groupSecurityHook(hook, auth);
 
 	    if(securityResponse == Error)
 	        next(securityResponse);
@@ -64,7 +64,7 @@ function allowedGroup(userGroups, routeGroups) {
 }
 
 //returns an object of all the before hooks that ensure security for the route
-function groupSecurityHook(groups) {
+function groupSecurityHook(hook, groups) {
 	if(groups === true && hook.params.user      //If groups is true, then we just need a logged in user
             || groups && hook.params.user && allowedGroup(hook.params.user.groups, groups)) //or if user is in an allowed group
 	    return;
