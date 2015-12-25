@@ -18,6 +18,7 @@ function GetConfigs(configPath, defaultConfigPath, process) {
 	if(process.env.PORT) finalConfig.port = process.env.PORT;
 
 	//defaults
+	//TODO: Might not need db anymore. I think i just use mongo_url
 	finalConfig.db = finalConfig.mongo_url.split('/').slice(-1)[0]; //TODO: anything more effecient than this, lol (but obvs i want it simple, so make an end fnc)
 
     //user configs

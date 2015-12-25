@@ -24,7 +24,7 @@ var app = Feathers();
 
 //get configurations and services
 var config = GetConfigs(process.argv[2], __dirname + '/config.js', process);
-var userService = UserService(config.db, config.admin_user, config.admin_pass);
+var userService = UserService(config.mongo_url, config.admin_user, config.admin_pass);
 var passport = GetPassport(userService, config);
 
 //setup middleware

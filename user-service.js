@@ -1,9 +1,9 @@
 var MongoDB = require('feathers-mongodb');
 var Crypto = require('crypto');
 
-var UserService = function(database, adminUser, adminPass) {
+var UserService = function(mongo_url, adminUser, adminPass) {
     return MongoDB({
-        db: database,
+        connectionString: mongo_url,
         collection: 'users',
     }).extend({
         authenticate: function(username, password, callback) {
