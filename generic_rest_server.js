@@ -56,4 +56,5 @@ app.use(function(req, res, next) {
 app.listen(config.port);
 console.log('Database Connection: ', config.mongo_url);
 console.log('collections: ', Object.keys(config.collections));
-console.log('Generic Restful Server now listening on port ' + config.port);
+//TODO: read the NPM to set this version
+console.log('Generic Restful Server v0.3.15 is now listening on port ' + config.port);
