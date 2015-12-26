@@ -12,15 +12,42 @@ var config = {
 	store_secret: 'omgasecret',
 
 	route_prefix: '/api',
+	auth_prefix: '/auth',
 
 	admin_user: 'root',
 	admin_pass: 'z',
 
     collections: {
         sample_collection: {
-            created: false,              //All people, even ones that aren't registered or logged in, can create "sample_collection" articles
-            edited: true,                 //only registered users can edit "sample_collection" articles
-            deleted: 'sample_admin',     //only users in the group "sample_admin" can delete "sample_collection" articles
+            //created: {auth: false},              //Default: All people, even ones that aren't registered or logged in, can create "sample_collection" articles
+            edited: {
+                auth: true,                 //only registered users can edit "sample_collection" articles
+            },
+            deleted: {
+                auth: ['sample_admin'],     //only users in the group "sample_admin" can delete "sample_collection" articles
+            },
+            find: {
+                auth: false,
+                before: function(dbh, ctx, next) {
+                    console.log('before finding a thing!', ctx, dbh.databaseName);
+                    next();
+                },
+                after: function(dbh, ctx, next) {
+                    console.log('after we found a thing!', ctx, dbh.databaseName);
+                    if(ctx.result.length === 1) {
+                        console.log('add timestamp if only one item!');
+                        add_current_time(ctx.result[0]);
+                    }
+                    next();
+                },
+            },
+            get: {
+                after: function(dbh, ctx, next) {
+                    //You could use dbh to attach related data to the ctx.
+                    add_current_time(ctx.result);
+                    next();
+                },
+            }
         },
     },
     groups: {
@@ -30,10 +57,18 @@ var config = {
 
     users_route: '/users',
     login_route: '/login',
+    google_callback_route: '/oauth2callback',
+
+    google_id: false,
+    google_secret: false,
 
     upload_route: '/__file',
     upload_dir: '__uploads',
     file_route: '/__uploads',
 };
+
+function add_current_time(result) {
+    result.current_time = Date.now();
+}
 
 module.exports = config;

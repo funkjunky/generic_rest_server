@@ -23,9 +23,9 @@ var SetupUploadAndFileAccess = require('./setup-upload-and-file-access');
 var app = Feathers();
 
 //get configurations and services
-var config = GetConfigs(process.argv[2], './config.js', process);
-var userService = UserService(config.db, config.admin_user, config.admin_pass);
-var passport = GetPassport(userService);
+var config = GetConfigs(process.argv[2], __dirname + '/config.js', process);
+var userService = UserService(config.mongo_url, config.admin_user, config.admin_pass);
+var passport = GetPassport(userService, config);
 
 //setup middleware
 app.use(BodyParser.json());
@@ -56,4 +56,5 @@ app.use(function(req, res, next) {
 app.listen(config.port);
 console.log('Database Connection: ', config.mongo_url);
 console.log('collections: ', Object.keys(config.collections));
-console.log('Generic Restful Server now listening on port ' + config.port);
+//TODO: read the NPM to set this version
+console.log('Generic Restful Server v0.3.15 is now listening on port ' + config.port);

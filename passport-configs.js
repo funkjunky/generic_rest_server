@@ -8,7 +8,7 @@ function PassportConfigs(passport, userService, globalConfig) {
         //TODO: get secret from environment variable
 	    config.secret = globalConfig.store_secret;
 	    config.store = new MongoStore({
-	        db: globalConfig.db,
+	        url: globalConfig.mongo_url,
 	    });
 	    config.resave = false;
 	    config.saveUninitialized = false;

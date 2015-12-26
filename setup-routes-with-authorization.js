@@ -1,18 +1,22 @@
 var MongoDB = require('feathers-mongodb');
 
 var ForEach = require('./foreach');
-var GetBeforeHookSecurity = require('./get-before-hook-security');
+var GetHooks = require('./get-hooks');
 
 var SetupRoutesWithAuthorization = function(app, collections, config) {
-    ForEach(collections, function(authorization, collection) {
+    ForEach(collections, function(collectionConfig, collection) {
         console.log('Collection registered: ', collection);
+        console.log('the mongourl: ', config.mongo_url);
         app.use(config.route_prefix + '/' + collection, MongoDB({
             connectionString: config.mongo_url,
             collection: collection,
         }));
 
-        if(typeof authorization == 'object')
-	        app.service(config.route_prefix + '/' + collection).before(GetBeforeHookSecurity(authorization));
+        if(typeof collectionConfig == 'object') {
+            var hooks = GetHooks(collectionConfig, config.mongo_url);
+	        app.service(config.route_prefix + '/' + collection).before(hooks.before);
+	        app.service(config.route_prefix + '/' + collection).after(hooks.after);
+	    }
     });
 };
 
