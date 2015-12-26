@@ -6,6 +6,7 @@ var GetHooks = require('./get-hooks');
 var SetupRoutesWithAuthorization = function(app, collections, config) {
     ForEach(collections, function(collectionConfig, collection) {
         console.log('Collection registered: ', collection);
+        console.log('the mongourl: ', config.mongo_url);
         app.use(config.route_prefix + '/' + collection, MongoDB({
             connectionString: config.mongo_url,
             collection: collection,

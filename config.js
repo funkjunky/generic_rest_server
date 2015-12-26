@@ -19,12 +19,12 @@ var config = {
 
     collections: {
         sample_collection: {
-            //created: false,              //Default: All people, even ones that aren't registered or logged in, can create "sample_collection" articles
+            //created: {auth: false},              //Default: All people, even ones that aren't registered or logged in, can create "sample_collection" articles
             edited: {
                 auth: true,                 //only registered users can edit "sample_collection" articles
             },
             deleted: {
-                auth: 'sample_admin',     //only users in the group "sample_admin" can delete "sample_collection" articles
+                auth: ['sample_admin'],     //only users in the group "sample_admin" can delete "sample_collection" articles
             },
             find: {
                 auth: false,

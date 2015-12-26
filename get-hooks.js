@@ -7,9 +7,12 @@ function GetHooks(collectionConfig, mongo_url) {
 
     //TODO: race condition
 	var dbhObj = {};
+    console.log('the mongourl: ', mongo_url);
 	MongoDB.connect(mongo_url, function(err, db) {
-	    if(err)
+	    if(err) {
+	        console.log('err...');
 	        throw err;
+	    }
 
 	    console.log('connected to mongo... for hooks');
 	    dbhObj.dbh = db;
@@ -52,15 +55,9 @@ function allowedGroup(userGroups, routeGroups) {
     if(!userGroups)
         return false;
 
-    if(routeGroups.some(userGroups))
-        return true;
-    else
-        return userGroups.some(function(group) {
-            if(config.groups[group])
-                return allowedGroup(config.groups[group], routeGroups);
-            else
-                return false;
-        });
+    return userGroups.some(function(group) {
+        return routeGroups.indexOf(group) != -1;
+    });
 }
 
 //returns an object of all the before hooks that ensure security for the route

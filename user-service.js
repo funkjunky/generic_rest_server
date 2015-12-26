@@ -2,6 +2,7 @@ var MongoDB = require('feathers-mongodb');
 var Crypto = require('crypto');
 
 var UserService = function(mongo_url, adminUser, adminPass) {
+    console.log('the mongourl: ', mongo_url);
     return MongoDB({
         connectionString: mongo_url,
         collection: 'users',
