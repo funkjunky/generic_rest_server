@@ -61,6 +61,7 @@ var config = {
     google_callback_route: '/oauth2callback',
     google_route: '/google',
     google_scopes: ['https://www.googleapis.com/auth/plus.login'],
+    google_redirect_failure: '/api/auth/google',
 
     google_id: false,
     google_secret: false,

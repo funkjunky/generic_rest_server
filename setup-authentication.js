@@ -40,8 +40,21 @@ var SetupAuthentication = function(app, userService, passport, config) {
 
     //oauth google login callback
     app.get(config.route_prefix + config.auth_prefix + config.google_callback_route, function(req, res, next) {
+        console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
         //Note: I'm passing a no-op to authenticate, because I feel like passport needs to do something, but I don't want it to "next"
-        passport.authenticate('google')(req, res, function(){});
+        var passportNext = function (){};
+        if(req.query.error)
+            passportNext = next;
+
+        var redirect_failure = config.google_redirect_failure;
+        if(req.query.state)
+            redirect_failure += '?redirect=' + req.query.state;
+        passport.authenticate('google', {
+            failureRedirect: redirect_failure,
+        })(req, res, next);
+
+        if(req.query.error) return;
+
         if(req.query.state)
             res.redirect(decodeURIComponent(req.query.state));
         else
