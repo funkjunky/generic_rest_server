@@ -55,20 +55,50 @@ var config = {
         sample_exec: ['sample_manager'],//sample_exec can do everything sample_manager can do
     },
 
-    users_route: '/users',
-    user_route: '/user',
-    login_route: '/login',
-    google_callback_route: '/oauth2callback',
-    google_route: '/google',
     google_scopes: ['https://www.googleapis.com/auth/plus.login'],
-    google_redirect_failure: '/api/auth/google',
-
     google_id: false,
     google_secret: false,
+    google_failure_redirect: function() {
+        return config._oauth.google.auth();
+    },
 
     upload_route: '/__file',
     upload_dir: '__uploads',
     file_route: '/__uploads',
+
+
+    //Warning: below are helper functions. This is what the server uses, so be wary changing them.
+    _userRoute: function() {
+        return config.route_prefix + '/user';
+    },
+    _usersRoute: function() {
+        return config.route_prefix + '/users';
+    },
+    _loginRoute: function() {
+        return config.route_prefix + config.auth_prefix + '/login';
+    },
+    _logoutRoute: function() {
+        return config.route_prefix + config.auth_prefix + '/logout';
+    },
+    _oauth: {
+        google:  {
+            auth: function() {
+                return config.route_prefix + config.auth_prefix + '/google';
+            },
+            callback: function() {
+                return config.route_prefix + config.auth_prefix + '/oauth2callback';
+            },
+            success: function() {
+                return config.route_prefix + config.auth_prefix + '/success';
+            },
+            failure: function() {
+                return config.route_prefix + config.auth_prefix + '/failure';
+            },
+        },
+    },
+    _collectionRoute: function(collection) {
+        return config.route_prefix + '/' + collection;
+    },
 };
 
 function add_current_time(result) {

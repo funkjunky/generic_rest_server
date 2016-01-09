@@ -7,15 +7,15 @@ var SetupRoutesWithAuthorization = function(app, collections, config) {
     ForEach(collections, function(collectionConfig, collection) {
         console.log('Collection registered: ', collection);
         console.log('the mongourl: ', config.mongo_url);
-        app.use(config.route_prefix + '/' + collection, MongoDB({
+        app.use(config._collectionRoute(collection), MongoDB({
             connectionString: config.mongo_url,
             collection: collection,
         }));
 
         if(typeof collectionConfig == 'object') {
             var hooks = GetHooks(collectionConfig, config.mongo_url);
-	        app.service(config.route_prefix + '/' + collection).before(hooks.before);
-	        app.service(config.route_prefix + '/' + collection).after(hooks.after);
+	        app.service(config._collectionRoute(collection)).before(hooks.before);
+	        app.service(config._collectionRoute(collection)).after(hooks.after);
 	    }
     });
 };

@@ -19,7 +19,7 @@ function GetPassport(userService, config) {
     Passport.use(new GoogleStrategy({
         clientID: config.google_id,
         clientSecret: config.google_secret,
-        callbackURL: process.env.HOST + config.route_prefix + config.auth_prefix + config.google_callback_route,
+        callbackURL: process.env.HOST + config._oauth.google.callback(),
         realm: process.env.HOST,
     }, function(token, tokenSecret, profile, done) {
         //TODO: what do i do with the token? I guess it's unnecessary as I only care about authentication and none of google's services.
