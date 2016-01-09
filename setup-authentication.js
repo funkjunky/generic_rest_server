@@ -5,7 +5,7 @@ var SetupAuthentication = function(app, userService, passport, config) {
     app.use(config.route_prefix + config.users_route, userService);
     app.service(config.route_prefix + config.users_route).before(UserAuth());
     //Show current user
-    app.use(config.route_prefix + '/user', function(req, res) {
+    app.use(config.route_prefix + config.user_route, function(req, res) {
         res.status(200).json(req.user);
     });
     //Login
@@ -16,20 +16,37 @@ var SetupAuthentication = function(app, userService, passport, config) {
     //logout
     app.get(config.route_prefix + config.auth_prefix + '/logout', function(req, res) {
         req.logout();
-        res.status(200).json(req.user);
+        if(req.query.redirect)
+            res.status(304).redirect(req.query.redirect);
+        else if(req.headers['referer'])
+            res.status(200).json(req.headers['referer']);
+        else
+            res.status(200).json(config.route_prefix + config.user_route);
     });
 
-    //TODO: config variables for all urls! Especially /auth/google
+    //TODO: config variables for all urls! Especially /auth/google, but also plus.login
     //oauth google login
-    app.get(config.route_prefix + config.auth_prefix + '/google', passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/plus.login'],
-    }));
+    app.get(config.route_prefix + config.auth_prefix + config.google_route, function(req, res, next) {
+        var options = { scope: config.google_scopes };
+        if(req.query.redirect)
+            options.state = encodeURIComponent(req.query.redirect);
+        else if(req.headers['referer'])
+            options.state = encodeURIComponent(req.headers['referer']);
+        else
+            options.state = encodeURIComponent('/api/user');
+
+        passport.authenticate('google', options)(req, res, next);
+    });
 
     //oauth google login callback
-    app.get(config.route_prefix + config.auth_prefix + config.google_callback_route, passport.authenticate('google', {
-        successRedirect: '/api/user',
-        failureRedirect: '/auth/google',    //TODO: this should redirect to a login page... but this doesn't come with a login page... so i dunno...
-    }));
+    app.get(config.route_prefix + config.auth_prefix + config.google_callback_route, function(req, res, next) {
+        //Note: I'm passing a no-op to authenticate, because I feel like passport needs to do something, but I don't want it to "next"
+        passport.authenticate('google')(req, res, function(){});
+        if(req.query.state)
+            res.redirect(decodeURIComponent(req.query.state));
+        else
+            res.redirect('/api/user/root');
+    });
 };
 
 module.exports = SetupAuthentication;

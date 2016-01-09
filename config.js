@@ -56,8 +56,11 @@ var config = {
     },
 
     users_route: '/users',
+    user_route: '/user',
     login_route: '/login',
     google_callback_route: '/oauth2callback',
+    google_route: '/google',
+    google_scopes: ['https://www.googleapis.com/auth/plus.login'],
 
     google_id: false,
     google_secret: false,
