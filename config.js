@@ -68,36 +68,38 @@ var config = {
 
 
     //Warning: below are helper functions. This is what the server uses, so be wary changing them.
-    _userRoute: function() {
-        return config.route_prefix + '/user';
-    },
-    _usersRoute: function() {
-        return config.route_prefix + '/users';
-    },
-    _loginRoute: function() {
-        return config.route_prefix + config.auth_prefix + '/login';
-    },
-    _logoutRoute: function() {
-        return config.route_prefix + config.auth_prefix + '/logout';
-    },
-    _oauth: {
-        google:  {
-            auth: function() {
-                return config.route_prefix + config.auth_prefix + '/google';
-            },
-            callback: function() {
-                return config.route_prefix + config.auth_prefix + '/oauth2callback';
-            },
-            success: function() {
-                return config.route_prefix + config.auth_prefix + '/success';
-            },
-            failure: function() {
-                return config.route_prefix + config.auth_prefix + '/failure';
+    _routes: {
+        user: function() {
+            return config.route_prefix + '/user';
+        },
+        users: function() {
+            return config.route_prefix + '/users';
+        },
+        login: function() {
+            return config.route_prefix + config.auth_prefix + '/login';
+        },
+        logout: function() {
+            return config.route_prefix + config.auth_prefix + '/logout';
+        },
+        oauth: {
+            google:  {
+                auth: function() {
+                    return config.route_prefix + config.auth_prefix + '/google';
+                },
+                callback: function() {
+                    return config.route_prefix + config.auth_prefix + '/oauth2callback';
+                },
+                success: function() {
+                    return config.route_prefix + config.auth_prefix + '/success';
+                },
+                failure: function() {
+                    return config.route_prefix + config.auth_prefix + '/failure';
+                },
             },
         },
-    },
-    _collectionRoute: function(collection) {
-        return config.route_prefix + '/' + collection;
+        collection: function(collection) {
+            return config.route_prefix + '/' + collection;
+        },
     },
 };
 
