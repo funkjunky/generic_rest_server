@@ -16,7 +16,8 @@ var PassportConfigs = require('./passport-configs');
 var GetPassport = require('./get-passport');
 var SetupAuthentication = require('./setup-authentication');
 var SetupRoutesWithAuthorization = require('./setup-routes-with-authorization');
-var SetupUploadAndFileAccess = require('./setup-upload-and-file-access');
+var LocalUploadAndFileAccess = require('./local-upload-and-file-access');
+var S3UploadAndFileAccess = require('./s3-upload-and-file-access');
 
 
 //get app
@@ -46,7 +47,10 @@ SetupAuthentication(app, userService, passport, config);
 
 SetupRoutesWithAuthorization(app, config.collections, config);
 
-SetupUploadAndFileAccess(app, config);
+if(process.env.UPLOADER == 's3')
+    S3UploadAndFileAccess(app, config);
+else
+    LocalUploadAndFileAccess(app, config);
 
 app.use(function(req, res, next) {
     res.status(404).send('API url not found.\n');
@@ -57,4 +61,4 @@ app.listen(config.port);
 console.log('Database Connection: ', config.mongo_url);
 console.log('collections: ', Object.keys(config.collections));
 //TODO: read the NPM to set this version
-console.log('Generic Restful Server v0.3.15 is now listening on port ' + config.port);
+console.log('Generic Restful Server v0.5.1 is now listening on port ' + config.port);

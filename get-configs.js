@@ -22,6 +22,7 @@ function GetConfigs(configPath, defaultConfigPath, process) {
 	finalConfig.db = finalConfig.mongo_url.split('/').slice(-1)[0]; //TODO: anything more effecient than this, lol (but obvs i want it simple, so make an end fnc)
 
     //user configs
+    console.log('admin user (env config): ', process.env.ADMIN_USER);
 	finalConfig.admin_user = process.env.ADMIN_USER || config.admin_user;
 	finalConfig.admin_pass = process.env.ADMIN_PASS || config.admin_pass;
 

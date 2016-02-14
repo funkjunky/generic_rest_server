@@ -65,6 +65,10 @@ var config = {
     upload_route: '/__file',
     upload_dir: '__uploads',
     file_route: '/__uploads',
+    upload_path: function(folder) {
+        folder = folder || '';
+        return __dirname + '/' + config.upload_dir + '/' + folder;
+    },
 
 
     //Warning: below are helper functions. This is what the server uses, so be wary changing them.
@@ -80,6 +84,9 @@ var config = {
         },
         logout: function() {
             return config.route_prefix + config.auth_prefix + '/logout';
+        },
+        upload: function() {
+            return config.route_prefix + config.file_route;
         },
         oauth: {
             google:  {

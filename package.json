@@ -1,6 +1,6 @@
 {
   "name": "generic_rest_server",
-  "version": "0.5.0",
+  "version": "0.5.3",
   "description": "Will take any RESTFUL operations with no authentication required",
   "keywords": [
     "rest",
@@ -21,6 +21,7 @@
     "feathers-passport": "^0.1.2",
     "mongodb": "^1.4.0",
     "multer": "1.0.*",
+    "aws-sdk": "~2.2.33",
     "passport": "^0.3.0",
     "passport-google-oauth": "^0.2.0",
     "passport-google-oauth2": "^0.1.*",
