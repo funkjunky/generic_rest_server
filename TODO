@@ -1,4 +1,5 @@
 TODO
 ---
 
- - be able to write options for the get query, also maybe with edit?
+ - when the server is starting, specify the upload system we're using, with parameters relating, so s3, show bucket and public token
+ - ... add more things here when i want to update this...
