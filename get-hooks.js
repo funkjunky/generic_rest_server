@@ -41,8 +41,8 @@ function getGroupBeforeHook(auth, beforeHook, dbhObj) {
 	    if(auth)
 	        securityResponse = groupSecurityHook(hook, auth);
 
-	    if(securityResponse == Error)
-	        next(securityResponse);
+	    if(securityResponse)
+	        next(new Error('Insufficient privilages', securityResponse));
         else if(beforeHook)
 	        beforeHook(dbhObj.dbh, hook, next, securityResponse);
 	    else
@@ -62,11 +62,11 @@ function allowedGroup(userGroups, routeGroups) {
 
 //returns an object of all the before hooks that ensure security for the route
 function groupSecurityHook(hook, groups) {
-	if(groups === true && hook.params.user      //If groups is true, then we just need a logged in user
-            || groups && hook.params.user && allowedGroup(hook.params.user.groups, groups)) //or if user is in an allowed group
+	if((groups === true && hook.params.user)      //If groups is true, then we just need a logged in user
+            || (groups && hook.params.user && allowedGroup(hook.params.user.groups, groups))) //or if user is in an allowed group
 	    return;
 	else
-	    return new Error('Insufficient access. You must be a member of one of the following groups: ', groups);
+	    return {error: 'Insufficient access.'};
 }
 
 module.exports = GetHooks;
