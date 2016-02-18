@@ -51,11 +51,13 @@ function getGroupBeforeHook(auth, beforeHook, dbhObj) {
 }
 
 //returns whether the usergroups have access to the routegroups
-function allowedGroup(userGroups, routeGroups) {
-    if(!userGroups)
+function allowedGroup(user, routeGroups) {
+    if(user.super)
+        return true;
+    else if(!user.groups)
         return false;
 
-    return userGroups.some(function(group) {
+    return user.groups.some(function(group) {
         return routeGroups.indexOf(group) != -1;
     });
 }
@@ -63,7 +65,7 @@ function allowedGroup(userGroups, routeGroups) {
 //returns an object of all the before hooks that ensure security for the route
 function groupSecurityHook(hook, groups) {
 	if((groups === true && hook.params.user)      //If groups is true, then we just need a logged in user
-            || (groups && hook.params.user && allowedGroup(hook.params.user.groups, groups))) //or if user is in an allowed group
+            || (groups && hook.params.user && allowedGroup(hook.params.user, groups))) //or if user is in an allowed group
 	    return;
 	else
 	    return {error: 'Insufficient access.'};

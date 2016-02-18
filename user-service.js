@@ -17,7 +17,7 @@ var UserService = function(mongo_url, adminUser, adminPass) {
 
                     var user = users[0];
                     if(!user)
-                        return this.create({_id: -1337, username: adminUser}, {}, function(err, response) {
+                        return this.create({_id: -1337, username: adminUser, super: true}, {}, function(err, response) {
                             //TODO: return the user info returned by the response
                             return callback(null, {_id: -1337, username: username, super: true});
                         });
